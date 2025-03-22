@@ -17,8 +17,12 @@ jobs:
           command: npm install
       
       - run:
-          name: Run Cypress tests
-          command: npm test
+          name: Install Xvfb
+          command: sudo apt-get update && sudo apt-get install -y xvfb
+      
+      - run:
+          name: Run Cypress tests with Xvfb
+          command: xvfb-run --auto-servernum npm test
       
       - store_artifacts:
           path: cypress/reports/html
