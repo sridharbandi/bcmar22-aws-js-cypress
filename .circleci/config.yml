@@ -1,35 +1,9 @@
 version: 2.1
-
 orbs:
-  browser-tools: circleci/browser-tools@1.5.3
-
-jobs:
-  cypress-run:
-    docker:
-      - image: cimg/node:22.0
-    steps:
-      - checkout
-
-      - browser-tools/install-chrome
-      
-      - run:
-          name: Install dependencies
-          command: npm install
-      
-      - run:
-          name: Install Xvfb
-          command: sudo apt-get update && sudo apt-get install -y xvfb
-      
-      - run:
-          name: Run Cypress tests with Xvfb
-          command: xvfb-run --auto-servernum npm test
-      
-      - store_artifacts:
-          path: cypress/reports/html
-          destination: cypress-test-results
-
+  cypress: cypress-io/cypress@3
 workflows:
-  version: 2
-  cypress_tests:
+  test:
     jobs:
-      - cypress-run
+      - cypress/run:
+          install-browsers: true
+          cypress-command: 'npm test'
